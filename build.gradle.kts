@@ -1,3 +1,5 @@
+import org.gradle.api.plugins.quality.Pmd
+
 val seleniumJavaVersion = "4.14.1"
 val seleniumJupiterVersion = "5.0.1"
 val webdrivermanagerVersion = "5.6.3"
@@ -6,6 +8,7 @@ val junitJupiterVersion = "5.9.1"
 plugins {
     java
     jacoco
+    id("pmd")
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -68,4 +71,9 @@ tasks.test {
 
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
+}
+
+
+tasks.withType<Pmd> {
+    ignoreFailures = false // Ensures CI fails if linter finds issues
 }
