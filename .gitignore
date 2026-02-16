@@ -38,6 +38,5 @@ out/
 
 ### Docker ###
 .git
-.gitignore
 .dockerignore
 target
