@@ -18,6 +18,7 @@ sonar {
     properties {
         property("sonar.projectKey", "B-Naufal-Zafran-Fadil-2406402542_Modul-2-CI-CD-DevOps")
         property("sonar.organization", "b-naufal-zafran-fadil-2406402542")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
