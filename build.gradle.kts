@@ -9,7 +9,7 @@ plugins {
     java
     jacoco
     id("pmd")
-    id("org.sonarqube") version "7.1.0.6387"
+    id("org.sonarqube") version "5.0.0.3323"
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.7"
 }
@@ -18,6 +18,7 @@ sonar {
     properties {
         property("sonar.projectKey", "B-Naufal-Zafran-Fadil-2406402542_Modul-2-CI-CD-DevOps")
         property("sonar.organization", "b-naufal-zafran-fadil-2406402542")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
 
