@@ -9,12 +9,11 @@ plugins {
     java
     jacoco
     id("pmd")
-//    id("org.sonarqube") version "7.1.0.6387"
+    id("org.sonarqube") version "6.0.1.5171"
     id("org.springframework.boot") version "3.2.2"
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-/*
 sonar {
     properties {
         property("sonar.projectKey", "B-Naufal-Zafran-Fadil-2406402542_Modul-2-CI-CD-DevOps")
@@ -22,7 +21,6 @@ sonar {
         property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
     }
 }
-*/
 
 group = "id.ac.ui.cs.advprog"
 version = "0.0.1-SNAPSHOT"
