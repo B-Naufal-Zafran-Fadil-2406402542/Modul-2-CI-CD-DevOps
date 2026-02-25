@@ -109,9 +109,25 @@ class CarController extends ProductController {
         return "redirect:listCar";
     }
 
-    @PostMapping("/deleteCar")
-    public String deleteCar(@RequestParam("carId") String carId) {
+//    @PostMapping("/deleteCar")
+//    public String deleteCar(@RequestParam("carId") String carId) {
+//        carservice.deleteCarById(carId);
+//        return "redirect:listCar";
+//    }
+
+//    @PostMapping("/delete/{productId}")
+//    public String deleteProduct(@PathVariable String productId) {
+//        try {
+//            service.delete(productId);
+//        } catch (ProductNotFoundException e) {
+//            System.out.println("Delete failed: " + e.getMessage());
+//        }
+//        return "redirect:/product/list";
+//    }
+
+    @PostMapping("/deleteCar/{carId}")
+    public String deleteCar(@PathVariable String carId) {
         carservice.deleteCarById(carId);
-        return "redirect:listCar";
+        return "redirect:/car/listCar";
     }
 }
