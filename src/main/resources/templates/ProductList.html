@@ -28,16 +28,16 @@
                     </thead>
                     <tbody>
                     <tr th:each="product: ${products}">
-                        <td class="ps-3 fw-medium" th:text="${product.productName}"></td>
+                        <td class="ps-3 fw-medium" th:text="${product.name}"></td>
                         <td>
-                            <span class="badge bg-secondary rounded-pill" th:text="${product.productQuantity}"></span>
+                            <span class="badge bg-secondary rounded-pill" th:text="${product.quantity}"></span>
                         </td>
                         <td class="text-center">
                             <div class="btn-group" role="group">
-                                <a th:href="@{/product/edit/{id}(id=${product.productId})}" class="btn btn-outline-primary btn-sm">
+                                <a th:href="@{/product/edit/{id}(id=${product.id})}" class="btn btn-outline-primary btn-sm">
                                     <i class="bi bi-pencil"></i> Edit
                                 </a>
-                                <form th:action="@{/product/delete/{id}(id=${product.productId})}" method="post" class="d-inline">
+                                <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post" class="d-inline">
                                     <button type="submit" class="btn btn-outline-danger btn-sm ms-1">
                                         <i class="bi bi-trash"></i> Delete
                                     </button>

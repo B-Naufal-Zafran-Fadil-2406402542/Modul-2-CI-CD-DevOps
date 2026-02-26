@@ -1,6 +1,6 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
-import id.ac.ui.cs.advprog.eshop.exception.ProductNotFoundException;
+import id.ac.ui.cs.advprog.eshop.exception.ItemNotFoundException;
 import id.ac.ui.cs.advprog.eshop.model.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,41 +25,41 @@ class ProductRepositoryTest {
     @Test
     void testCreateAndFind() {
         Product product1 = new Product();
-        product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        product1.setProductName("Sampo Cap Bambang");
-        product1.setProductQuantity(100);
+        product1.setId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product1.setName("Sampo Cap Bambang");
+        product1.setQuantity(100);
         productRepository.create(product1);
 
         Product product2 = new Product();
-        product2.setProductId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
-        product2.setProductName("Sampo Cap Usep");
-        product2.setProductQuantity(50);
+        product2.setId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
+        product2.setName("Sampo Cap Usep");
+        product2.setQuantity(50);
         productRepository.create(product2);
 
         Iterator<Product> productIterator = productRepository.findAll();
         assertTrue(productIterator.hasNext());
         Product savedProduct1 = productIterator.next();
-        assertEquals(product1.getProductId(), savedProduct1.getProductId());
+        assertEquals(product1.getId(), savedProduct1.getId());
         assertTrue(productIterator.hasNext());
         Product savedProduct2 = productIterator.next();
-        assertEquals(product2.getProductId(), savedProduct2.getProductId());
+        assertEquals(product2.getId(), savedProduct2.getId());
     }
 
     @Test
-    void testGetProductByIdSuccess() {
+    void testgetByIdSuccess() {
         Product product1 = new Product();
-        product1.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        product1.setProductName("Sampo Cap Bambang");
-        product1.setProductQuantity(100);
+        product1.setId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product1.setName("Sampo Cap Bambang");
+        product1.setQuantity(100);
         productRepository.create(product1);
 
         Product product2 = new Product();
-        product2.setProductId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
-        product2.setProductName("Sampo Cap Usep");
-        product2.setProductQuantity(50);
+        product2.setId("a0f9de46-90b1-437d-a0bf-d0821dde9096");
+        product2.setName("Sampo Cap Usep");
+        product2.setQuantity(50);
         productRepository.create(product2);
 
-        Product foundProduct = productRepository.getProductById("a0f9de46-90b1-437d-a0bf-d0821dde9096");
+        Product foundProduct = productRepository.getItemById("a0f9de46-90b1-437d-a0bf-d0821dde9096");
         assertEquals(product2, foundProduct);
     }
 
@@ -67,32 +67,32 @@ class ProductRepositoryTest {
     void testUpdateProductSuccess() {
         // Skenario Positif: Berhasil mengupdate data produk yang ada
         Product product = new Product();
-        product.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        product.setProductName("Sampo Cap Bambang");
-        product.setProductQuantity(100);
+        product.setId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        product.setName("Sampo Cap Bambang");
+        product.setQuantity(100);
         productRepository.create(product);
 
         Product updatedProduct = new Product();
-        updatedProduct.setProductId("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        updatedProduct.setProductName("Sampo Cap Usep");
-        updatedProduct.setProductQuantity(50);
-        productRepository.updateProductData(updatedProduct); // Menyesuaikan nama method
+        updatedProduct.setId("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        updatedProduct.setName("Sampo Cap Usep");
+        updatedProduct.setQuantity(50);
+        productRepository.updateItemData(updatedProduct); // Menyesuaikan nama method
 
-        Product result = productRepository.getProductById("eb558e9f-1c39-460e-8860-71af6af63bd6");
-        assertEquals("Sampo Cap Usep", result.getProductName());
-        assertEquals(50, result.getProductQuantity());
+        Product result = productRepository.getItemById("eb558e9f-1c39-460e-8860-71af6af63bd6");
+        assertEquals("Sampo Cap Usep", result.getName());
+        assertEquals(50, result.getQuantity());
     }
 
     @Test
     void testUpdateProductNotFound() {
         // Skenario Negatif: Gagal mengupdate karena ID tidak ditemukan
         Product updatedProduct = new Product();
-        updatedProduct.setProductId("id-salah");
-        updatedProduct.setProductName("Produk Ghoib");
-        updatedProduct.setProductQuantity(0);
+        updatedProduct.setId("id-salah");
+        updatedProduct.setName("Produk Ghoib");
+        updatedProduct.setQuantity(0);
 
-        assertThrows(ProductNotFoundException.class, () ->
-                productRepository.updateProductData(updatedProduct)
+        assertThrows(ItemNotFoundException.class, () ->
+                productRepository.updateItemData(updatedProduct)
         );
     }
 
@@ -100,30 +100,30 @@ class ProductRepositoryTest {
     void testDeleteProductSuccess() {
         // Skenario Positif: Berhasil menghapus produk
         Product product = new Product();
-        product.setProductId("id-hapus");
-        product.setProductName("Produk Hapus");
+        product.setId("id-hapus");
+        product.setName("Produk Hapus");
         productRepository.create(product);
 
-        productRepository.deleteProductById("id-hapus"); // Menyesuaikan nama method
+        productRepository.deleteItemById("id-hapus"); // Menyesuaikan nama method
 
         // Memastikan produk sudah benar-benar hilang
-        assertThrows(ProductNotFoundException.class, () ->
-                productRepository.getProductById("id-hapus")
+        assertThrows(ItemNotFoundException.class, () ->
+                productRepository.getItemById("id-hapus")
         );
     }
 
     @Test
-    void testGetProductByIdNotFound() {
+    void testgetByIdNotFound() {
         // Skenario Negatif: Mencari ID yang tidak ada
-        assertThrows(ProductNotFoundException.class, () ->
-                productRepository.getProductById("id-acak")
+        assertThrows(ItemNotFoundException.class, () ->
+                productRepository.getItemById("id-acak")
         );
     }
 
     @Test
-    void testGetProductByIdWhenEmpty() {
-        assertThrows(ProductNotFoundException.class, () ->
-                productRepository.getProductById("id-acak")
+    void testgetByIdWhenEmpty() {
+        assertThrows(ItemNotFoundException.class, () ->
+                productRepository.getItemById("id-acak")
         );
     }
 }

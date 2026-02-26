@@ -1,8 +1,9 @@
 package id.ac.ui.cs.advprog.eshop.controller;
 
-import id.ac.ui.cs.advprog.eshop.exception.ProductNotFoundException;
+import id.ac.ui.cs.advprog.eshop.exception.ItemNotFoundException;
 import id.ac.ui.cs.advprog.eshop.model.Product;
-import id.ac.ui.cs.advprog.eshop.service.ProductService;
+//import id.ac.ui.cs.advprog.eshop.service.ProductService;
+import id.ac.ui.cs.advprog.eshop.service.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -25,7 +26,7 @@ class ProductControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ProductService service;
+    private ProductServiceImpl service;
 
     @Test
     void testProductListPage() throws Exception {
@@ -57,8 +58,8 @@ class ProductControllerTest {
     @Test
     void testEditProductPage() throws Exception {
         Product product = new Product();
-        product.setProductId("test-id");
-        when(service.getProductById("test-id")).thenReturn(product);
+        product.setId("test-id");
+        when(service.getItemById("test-id")).thenReturn(product);
 
         mockMvc.perform(get("/product/edit/test-id"))
                 .andExpect(status().isOk())
@@ -68,7 +69,7 @@ class ProductControllerTest {
 
     @Test
     void testEditProductPageNotFound() throws Exception {
-        when(service.getProductById("test-id")).thenThrow(new ProductNotFoundException("Product not found"));
+        when(service.getItemById("test-id")).thenThrow(new ItemNotFoundException("Product not found"));
 
         mockMvc.perform(get("/product/edit/test-id"))
                 .andExpect(status().is3xxRedirection())
@@ -92,7 +93,7 @@ class ProductControllerTest {
 
     @Test
     void testDeleteProductNotFound() throws Exception {
-        doThrow(new ProductNotFoundException("Product not found")).when(service).delete("test-id");
+        doThrow(new ItemNotFoundException("Product not found")).when(service).deleteById("test-id");
 
         mockMvc.perform(post("/product/delete/test-id"))
                 .andExpect(status().is3xxRedirection())

@@ -18,11 +18,16 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
-    @InjectMocks
     private ProductServiceImpl service;
 
     @Mock
     private ProductRepository repository;
+
+    @BeforeEach
+    void setUp() {
+        service = new ProductServiceImpl();
+        service.itemRepository = repository;
+    }
 
     @Test
     void testCreate() {
@@ -43,9 +48,9 @@ class ProductServiceImplTest {
     @Test
     void testGetProductById() {
         Product product = new Product();
-        product.setProductId("test-id");
-        when(repository.getProductById("test-id")).thenReturn(product);
-        Product foundProduct = service.getProductById("test-id");
+        product.setId("test-id");
+        when(repository.getItemById("test-id")).thenReturn(product);
+        Product foundProduct = service.getItemById("test-id");
         assertEquals(product, foundProduct);
     }
 
@@ -57,6 +62,6 @@ class ProductServiceImplTest {
 
     @Test
     void testDelete() {
-        service.delete("test-id");
+        service.deleteById("test-id");
     }
 }

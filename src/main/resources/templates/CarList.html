@@ -29,20 +29,20 @@
                     </thead>
                     <tbody>
                     <tr th:each="car: ${cars}">
-                        <td class="ps-3 fw-medium" th:text="${car.carName}"></td>
+                        <td class="ps-3 fw-medium" th:text="${car.name}"></td>
                         <td>
                             <span class="badge bg-secondary rounded-pill" th:text="${car.carColor}"></span>
                         </td>
                         <td>
-                            <span class="badge bg-secondary rounded-pill" th:text="${car.carQuantity}"></span>
+                            <span class="badge bg-secondary rounded-pill" th:text="${car.quantity}"></span>
                         </td>
 
                         <td class="text-center">
                             <div class="btn-group" role="group">
-                                <a th:href="@{/car/editCar/{id}(id=${car.carId})}" class="btn btn-outline-primary btn-sm">
+                                <a th:href="@{/car/editCar/{id}(id=${car.id})}" class="btn btn-outline-primary btn-sm">
                                     <i class="bi bi-pencil"></i> Edit
                                 </a>
-                                <form th:action="@{/car/deleteCar/{id}(id=${car.carId})}" method="post" class="d-inline">
+                                <form th:action="@{/car/deleteCar/{id}(id=${car.id})}" method="post" class="d-inline">
                                     <button type="submit" class="btn btn-outline-danger btn-sm ms-1">
                                         <i class="bi bi-trash"></i> Delete
                                     </button>

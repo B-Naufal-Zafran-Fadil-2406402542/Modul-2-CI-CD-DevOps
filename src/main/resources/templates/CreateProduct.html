@@ -17,12 +17,12 @@
                     <form th:action="@{/product/create}" th:object="${product}" method="post">
                         <div class="mb-3">
                             <label for="nameInput" class="form-label fw-semibold">Product Name</label>
-                            <input th:field="*{productName}" type="text" class="form-control form-control-lg" id="nameInput" placeholder="Enter product name" required>
+                            <input th:field="*{name}" type="text" class="form-control form-control-lg" id="nameInput" placeholder="Enter product name" required>
                         </div>
 
                         <div class="mb-4">
                             <label for="quantityInput" class="form-label fw-semibold">Quantity</label>
-                            <input th:field="*{productQuantity}" type="number" class="form-control form-control-lg" id="quantityInput" placeholder="Enter quantity" min="1" required>
+                            <input th:field="*{quantity}" type="number" class="form-control form-control-lg" id="quantityInput" placeholder="Enter quantity" min="1" required>
                         </div>
 
                         <div class="d-grid gap-2">
