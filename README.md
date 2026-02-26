@@ -76,3 +76,32 @@ The project has a robust CI process. The GitHub Actions workflows automatically 
 However, the pipeline does not include Continuous Deployment. After a successful build and analysis, there are no automated steps to deploy the application to a staging or production environment, such as a PaaS like Heroku or AWS Elastic Beanstalk. A complete CD pipeline would automate the release process, allowing new changes that pass all checks to be deployed to users without manual intervention.
 
 ---
+## Reflection 4
+
+### 1) Prinsip SOLID yang Diterapkan
+
+Dalam proyek ini, saya telah menerapkan kelima prinsip SOLID untuk memperbaiki struktur kode yang sebelumnya kaku dan saling bergantung:
+
+*   **Single Responsibility Principle (SRP):** Saya memisahkan `CarController` dari `ProductController`. Sebelumnya, `CarController` berada di dalam file yang sama dengan `ProductController`, yang membuat satu file memiliki dua tanggung jawab berbeda. Sekarang, masing-masing kelas hanya bertanggung jawab pada satu domain (Mobil atau Produk).
+*   **Open-Closed Principle (OCP):** Saya menggunakan `AbstractItemService` dan generic `ItemRepository<T>`. Dengan struktur ini, jika saya ingin menambahkan jenis barang baru (misalnya `Truck`), saya cukup membuat kelas baru tanpa perlu mengubah kode logika inti yang sudah ada di kelas abstract.
+*   **Liskov Substitution Principle (LSP):** Saya memastikan bahwa `Car` dan `Product` adalah substitusi yang valid untuk `Item`. Selain itu, saya memperbaiki `CarRepository` agar tidak lagi menggunakan *casting* manual `(Car)` dan tidak memiliki list data ganda, sehingga ia benar-benar bisa menggantikan fungsi `ItemRepository` induknya tanpa merusak perilaku program.
+*   **Interface Segregation Principle (ISP):** Saya memecah interface service menjadi `CarService` dan `ProductService` yang spesifik. Meskipun keduanya mewarisi metode umum dari `ItemService`, pemisahan ini memastikan bahwa jika di masa depan ada metode khusus hanya untuk mobil (seperti `serviceBrake()`), hal tersebut tidak akan memaksa `ProductService` untuk ikut mengimplementasikannya.
+*   **Dependency Inversion Principle (DIP):** Controller sekarang bergantung pada abstraksi (Interface seperti `ProductService` dan `CarService`) alih-alih bergantung pada implementasi konkret (`ProductServiceImpl`). Hal ini dilakukan dengan menggunakan anotasi `@Autowired` pada tipe data Interface.
+
+### 2) Keuntungan Menerapkan SOLID
+
+Penerapan SOLID memberikan dampak nyata pada kualitas kode:
+
+*   **Kemudahan Pengujian (Testability):** Karena Controller bergantung pada Interface (DIP), saya dapat dengan mudah melakukan *mocking* pada Service saat melakukan Unit Testing tanpa harus menjalankan logika database atau repositori yang sebenarnya.
+*   **Kode Lebih Fleksibel (Flexibility):** Dengan OCP, saya bisa menambahkan fitur baru dengan risiko minimal merusak fitur lama. Contohnya, saat menambahkan fitur `Car`, saya tidak perlu menyentuh sebaris kode pun di `ProductService`.
+*   **Mengurangi Duplikasi Kode (DRY):** Penggunaan generic pada `ItemRepository<T>` memungkinkan logika CRUD (Create, Read, Update, Delete) ditulis satu kali saja di kelas induk, namun tetap bisa digunakan oleh berbagai jenis objek.
+
+### 3) Kerugian Jika Tidak Menerapkan SOLID
+
+Tanpa prinsip SOLID, proyek ini akan menghadapi beberapa masalah serius:
+
+*   **Kekakuan Kode (Rigidity):** Sebelum SRP diterapkan, perubahan pada cara `Product` bekerja berisiko merusak fungsionalitas `Car` karena keduanya berada di file dan kelas yang sama (terikat melalui *inheritance* yang salah).
+*   **Ketergantungan Tinggi (Tight Coupling):** Jika Controller bergantung langsung pada `CarServiceImpl` (tanpa Interface), maka setiap kali ada perubahan pada cara Service bekerja, kita harus mengubah kode di Controller juga. Ini membuat sistem sulit dikelola seiring bertambahnya skala proyek.
+*   **Duplikasi dan Kesalahan Logika:** Tanpa abstraksi yang benar (seperti kasus list data ganda di `CarRepository` sebelumnya), data bisa menjadi tidak sinkron karena tersimpan di dua tempat berbeda (list di induk dan list di anak), yang berpotensi menyebabkan bug yang sulit dilacak.
+
+
