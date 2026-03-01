@@ -1,5 +1,16 @@
 package id.ac.ui.cs.advprog.eshop.repository;
 
+import enums.OrderStatus;
+import id.ac.ui.cs.advprog.eshop.model.Order;
+import id.ac.ui.cs.advprog.eshop.model.Product;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 public class OrderRepositoryTest {
     OrderRepository orderRepository;
     List<Order> orders;
@@ -9,9 +20,9 @@ public class OrderRepositoryTest {
         orderRepository = new OrderRepository();
         List<Product> products = new ArrayList<>();
         Product product1 = new Product();
-        product1.setProductId("eb558e9f-1039-4606-8860-71af6af63bd6");
-        product1.setProductName("Sampo Cap Bambang");
-        product1.setProductQuantity(2);
+        product1.setId("eb558e9f-1039-4606-8860-71af6af63bd6");
+        product1.setName("Sampo Cap Bambang");
+        product1.setQuantity(2);
         products.add(product1);
         orders = new ArrayList<>();
         Order order1 = new Order("13652556-0128-4c07-b546-54eb1396d79b",
