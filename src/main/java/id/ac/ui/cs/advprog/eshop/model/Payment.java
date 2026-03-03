@@ -47,13 +47,13 @@ public class Payment {
         }
     }
 
+    /**
+     * Counts the number of numerical digits in a string.
+     * @param s the string to count digits from
+     * @return the number of digits found
+     */
     private int countDigits(String s) {
-        int count = 0;
-        for (char c : s.toCharArray()) {
-            if (Character.isDigit(c)) {
-                count++;
-            }
-        }
-        return count;
+        if (s == null) return 0;
+        return (int) s.chars().filter(Character::isDigit).count();
     }
 }
