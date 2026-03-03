@@ -53,7 +53,7 @@ public class PaymentTest {
     @Test
     void testCreatePaymentVoucherRejectedNotStartWithESHOP() {
         Map<String, String> paymentData = new HashMap<>();
-        paymentData.put("voucherCode", "MYSHOP1234ABC5678"); // 16 chars
+        paymentData.put("voucherCode", "NOTESHOP12345678"); // 16 chars, but starts with NOTESHOP
         Payment payment = new Payment("13652556-812a-4c07-6546-54eb1396d79b",
                 this.order, "VOUCHER_CODE", paymentData);
 
