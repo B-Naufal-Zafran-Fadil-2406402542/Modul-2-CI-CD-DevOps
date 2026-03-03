@@ -57,6 +57,19 @@ public class OrderTest {
     }
 
     @Test
+    void testCreateOrderBuilderNullProduct() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            Order.builder()
+                    .id("id")
+                    .products(null)
+                    .orderTime(1L)
+                    .author("author")
+                    .status("WAITING_PAYMENT")
+                    .build();
+        });
+    }
+
+    @Test
     void testCreateOrderEmptyProduct() {
         this.products.clear();
         assertThrows(IllegalArgumentException.class, () -> {

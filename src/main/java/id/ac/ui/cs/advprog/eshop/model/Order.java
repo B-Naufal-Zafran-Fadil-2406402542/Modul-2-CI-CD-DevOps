@@ -7,7 +7,6 @@ import lombok.Setter;
 
 import java.util.*;
 
-@Builder
 @Getter
 public class Order {
     String id;
@@ -22,13 +21,14 @@ public class Order {
         this.author = author;
         this.status = OrderStatus.WAITING_PAYMENT.getValue();
 
-        if (products.isEmpty()) {
+        if (products == null || products.isEmpty()) {
             throw new IllegalArgumentException();
         } else {
             this.products = products;
         }
     }
 
+    @Builder
     public Order(String id, List<Product> products, Long orderTime, String author, String status) {
         this(id, products, orderTime, author);
 

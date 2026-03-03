@@ -59,11 +59,14 @@ public class OrderController {
     }
 
     /**
-     * Processes history search request.
+     * Processes history search request and shows results.
      */
     @PostMapping("/history")
-    public String searchHistory(@RequestParam String author) {
-        return "redirect:/order/history/" + author;
+    public String searchHistory(@RequestParam String author, Model model) {
+        List<Order> orders = orderService.findAllByAuthor(author);
+        model.addAttribute("orders", orders);
+        model.addAttribute("author", author);
+        return "OrderList";
     }
 
     /**

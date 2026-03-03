@@ -72,9 +72,14 @@ class OrderControllerTest {
 
     @Test
     void testSearchHistory() throws Exception {
+        List<Order> orders = new ArrayList<>();
+        when(orderService.findAllByAuthor("Safira")).thenReturn(orders);
+
         mockMvc.perform(post("/order/history").param("author", "Safira"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/order/history/Safira"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("OrderList"))
+                .andExpect(model().attribute("orders", orders))
+                .andExpect(model().attribute("author", "Safira"));
     }
 
     @Test
