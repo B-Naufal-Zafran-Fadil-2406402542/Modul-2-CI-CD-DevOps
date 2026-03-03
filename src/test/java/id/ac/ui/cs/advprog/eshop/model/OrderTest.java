@@ -27,6 +27,23 @@ public class OrderTest {
     }
 
     @Test
+    void testOrderBuilder() {
+        Order order = Order.builder()
+                .id("13652556-812a-4c07-6546-54eb1396d79b")
+                .products(this.products)
+                .orderTime(1708560800L)
+                .author("Safira Sudrajat")
+                .status(OrderStatus.WAITING_PAYMENT.getValue())
+                .build();
+
+        assertEquals("13652556-812a-4c07-6546-54eb1396d79b", order.getId());
+        assertSame(this.products, order.getProducts());
+        assertEquals(1708560800L, order.getOrderTime());
+        assertEquals("Safira Sudrajat", order.getAuthor());
+        assertEquals("WAITING_PAYMENT", order.getStatus());
+    }
+
+    @Test
     void testCreateOrderEmptyProduct() {
         this.products.clear();
         assertThrows(IllegalArgumentException.class, () -> {

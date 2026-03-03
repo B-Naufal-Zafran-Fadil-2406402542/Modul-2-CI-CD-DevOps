@@ -71,6 +71,16 @@ public class PaymentTest {
     }
 
     @Test
+    void testCreatePaymentVoucherRejectedNullVoucherCode() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", null);
+        Payment payment = new Payment("13652556-812a-4c07-6546-54eb1396d79b",
+                this.order, "VOUCHER_CODE", paymentData);
+
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
+    }
+
+    @Test
     void testCreatePaymentBankTransferSuccess() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("bankName", "BCA");

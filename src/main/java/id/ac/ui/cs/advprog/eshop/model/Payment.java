@@ -53,7 +53,6 @@ public class Payment {
      * @return the number of digits found
      */
     private int countDigits(String s) {
-        if (s == null) return 0;
         return (int) s.chars().filter(Character::isDigit).count();
     }
 }
