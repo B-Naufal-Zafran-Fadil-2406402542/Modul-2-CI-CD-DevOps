@@ -67,14 +67,16 @@ class CarControllerTest {
                 .andExpect(model().attribute("car", car));
     }
 
-//    @Test
-//    void testEditCarPageNotFound() throws Exception {
-//        when(service.getItemById("test-id")).thenThrow(new ItemNotFoundException("Car not found"));
-//
-//        mockMvc.perform(get("/car/editCar/test-id"))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("/car/listCar"));
-//    }
+    @Test
+    void testEditCarPageNotFound() throws Exception {
+        Car car = new Car(); // Just an empty car
+        when(service.getItemById("test-id")).thenReturn(car);
+
+        mockMvc.perform(get("/car/editCar/test-id"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("EditCar"))
+                .andExpect(model().attribute("car", car));
+    }
 
     @Test
     void testEditCarPost() throws Exception {
@@ -91,12 +93,10 @@ class CarControllerTest {
                 .andExpect(redirectedUrl("/car/listCar"));
     }
 
-//    @Test
-//    void testDeleteCarNotFound() throws Exception {
-//        doThrow(new ItemNotFoundException("Car not found")).when(service).deleteById("test-id");
-//
-//        mockMvc.perform(post("/car/deleteCar/test-id"))
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("/car/listCar"));
-//    }
+    @Test
+    void testDeleteCarNotFound() throws Exception {
+        mockMvc.perform(post("/car/deleteCar/test-id"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/car/listCar"));
+    }
 }
