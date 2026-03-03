@@ -39,17 +39,20 @@ class OrderFunctionalTest {
         driver.findElement(By.id("nameInput")).sendKeys("Sampo Cap Bambang");
         driver.findElement(By.id("quantityInput")).sendKeys("10");
         driver.findElement(By.cssSelector("button[type='submit']")).click();
+        
+        Thread.sleep(1000);
 
         // Now create order
         driver.get(baseUrl + "/order/create");
+        Thread.sleep(1000);
+        
         String authorName = "Safira Sudrajat";
-        driver.findElement(By.id("author")).sendKeys(authorName);
+        driver.findElement(By.name("author")).sendKeys(authorName);
         driver.findElement(By.cssSelector("button[type='submit']")).click();
 
         Thread.sleep(1000);
 
-        // Should be redirected to history search or success page
-        // Based on my template, it redirects to history list for that author
+        // Should be redirected to history list for that author
         assertTrue(driver.getCurrentUrl().contains("/order/history"));
         String pageSource = driver.getPageSource();
         assertTrue(pageSource.contains(authorName));
@@ -63,15 +66,21 @@ class OrderFunctionalTest {
         driver.findElement(By.id("nameInput")).sendKeys("Sampo Cap Bambang");
         driver.findElement(By.id("quantityInput")).sendKeys("10");
         driver.findElement(By.cssSelector("button[type='submit']")).click();
+        
+        Thread.sleep(1000);
 
         driver.get(baseUrl + "/order/create");
+        Thread.sleep(1000);
         String authorName = "Bambang Sudrajat";
-        driver.findElement(By.id("author")).sendKeys(authorName);
+        driver.findElement(By.name("author")).sendKeys(authorName);
         driver.findElement(By.cssSelector("button[type='submit']")).click();
+
+        Thread.sleep(1000);
 
         // Go to history search
         driver.get(baseUrl + "/order/history");
-        driver.findElement(By.id("author")).sendKeys(authorName);
+        Thread.sleep(1000);
+        driver.findElement(By.name("author")).sendKeys(authorName);
         driver.findElement(By.cssSelector("button[type='submit']")).click();
 
         Thread.sleep(1000);
