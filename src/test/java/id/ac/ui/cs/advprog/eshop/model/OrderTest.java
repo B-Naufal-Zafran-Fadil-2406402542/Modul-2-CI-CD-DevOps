@@ -44,6 +44,19 @@ public class OrderTest {
     }
 
     @Test
+    void testOrderBuilderToString() {
+        String builderString = Order.builder()
+                .id("id")
+                .products(this.products)
+                .orderTime(1L)
+                .author("author")
+                .status("status")
+                .toString();
+        assertNotNull(builderString);
+        assertTrue(builderString.contains("id=id"));
+    }
+
+    @Test
     void testCreateOrderEmptyProduct() {
         this.products.clear();
         assertThrows(IllegalArgumentException.class, () -> {

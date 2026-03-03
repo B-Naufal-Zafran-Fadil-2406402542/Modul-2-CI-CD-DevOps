@@ -47,6 +47,16 @@ class PaymentControllerTest {
     }
 
     @Test
+    void testPaymentDetailPageNotFound() throws Exception {
+        when(paymentService.getPayment("non-existent")).thenReturn(null);
+
+        mockMvc.perform(get("/payment/detail/non-existent"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("PaymentDetail"))
+                .andExpect(model().attribute("payment", (Object) null));
+    }
+
+    @Test
     void testPaymentList() throws Exception {
         List<Payment> payments = new ArrayList<>();
         when(paymentService.getAllPayments()).thenReturn(payments);

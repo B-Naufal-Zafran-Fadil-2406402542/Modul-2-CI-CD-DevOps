@@ -81,6 +81,19 @@ public class PaymentTest {
     }
 
     @Test
+    void testCreatePaymentVoucherRejectedMoreNumerical() {
+        Map<String, String> paymentData = new HashMap<>();
+        paymentData.put("voucherCode", "ESHOP1234567890AB"); // 10 numerical
+        // Wait, ESHOP (5) + 1234567890 (10) + AB (2) = 17 chars.
+        // I need exactly 16 chars.
+        paymentData.put("voucherCode", "ESHOP1234567890A"); // 10 numerical, 5 + 10 + 1 = 16 chars.
+        Payment payment = new Payment("13652556-812a-4c07-6546-54eb1396d79b",
+                this.order, "VOUCHER_CODE", paymentData);
+
+        assertEquals(PaymentStatus.REJECTED.getValue(), payment.getStatus());
+    }
+
+    @Test
     void testCreatePaymentBankTransferSuccess() {
         Map<String, String> paymentData = new HashMap<>();
         paymentData.put("bankName", "BCA");
