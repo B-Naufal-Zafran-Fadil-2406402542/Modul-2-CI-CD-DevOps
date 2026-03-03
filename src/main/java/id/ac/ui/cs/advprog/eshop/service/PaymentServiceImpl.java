@@ -21,12 +21,25 @@ public class PaymentServiceImpl implements PaymentService {
     @Autowired
     private OrderRepository orderRepository;
 
+    /**
+     * Creates and saves a new payment for the given order.
+     * @param order the order to pay for
+     * @param method the payment method
+     * @param paymentData specific data for the payment method
+     * @return the newly created payment
+     */
     @Override
     public Payment addPayment(Order order, String method, Map<String, String> paymentData) {
         Payment payment = new Payment(UUID.randomUUID().toString(), order, method, paymentData);
         return paymentRepository.save(payment);
     }
 
+    /**
+     * Updates the status of a payment and its related order.
+     * @param payment the payment to update
+     * @param status the new status
+     * @return the updated payment
+     */
     @Override
     public Payment setStatus(Payment payment, String status) {
         payment.setStatus(status);
@@ -39,11 +52,20 @@ public class PaymentServiceImpl implements PaymentService {
         return paymentRepository.save(payment);
     }
 
+    /**
+     * Retrieves a payment by its ID.
+     * @param paymentId the payment ID
+     * @return the found payment or null
+     */
     @Override
     public Payment getPayment(String paymentId) {
         return paymentRepository.findById(paymentId);
     }
 
+    /**
+     * Retrieves all payments in the system.
+     * @return list of all payments
+     */
     @Override
     public List<Payment> getAllPayments() {
         return paymentRepository.findAll();
