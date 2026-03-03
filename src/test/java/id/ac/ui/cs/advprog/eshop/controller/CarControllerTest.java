@@ -48,6 +48,14 @@ class CarControllerTest {
     }
 
     @Test
+    void testCreateCarPost() throws Exception {
+        Car car = new Car();
+        mockMvc.perform(post("/car/createCar").flashAttr("car", car))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("listCar"));
+    }
+
+    @Test
     void testCreateCarPostWithId() throws Exception {
         Car car = new Car();
         car.setId("existing-id");
