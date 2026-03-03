@@ -10,6 +10,11 @@ import java.util.List;
 public class PaymentRepository {
     private List<Payment> paymentData = new ArrayList<>();
 
+    /**
+     * Saves a payment object to the repository.
+     * @param payment the payment to save
+     * @return the saved payment
+     */
     public Payment save(Payment payment) {
         int i = 0;
         for (Payment savedPayment : paymentData) {
@@ -23,6 +28,11 @@ public class PaymentRepository {
         return payment;
     }
 
+    /**
+     * Finds a payment by its unique ID.
+     * @param id the payment ID
+     * @return the found payment or null if not found
+     */
     public Payment findById(String id) {
         for (Payment savedPayment : paymentData) {
             if (savedPayment.getId().equals(id)) {
@@ -32,6 +42,10 @@ public class PaymentRepository {
         return null;
     }
 
+    /**
+     * Returns a list of all saved payments.
+     * @return list of all payments
+     */
     public List<Payment> findAll() {
         return new ArrayList<>(paymentData);
     }
