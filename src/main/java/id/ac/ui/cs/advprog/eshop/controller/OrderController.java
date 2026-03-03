@@ -28,11 +28,17 @@ public class OrderController {
     @Autowired
     private PaymentService paymentService;
 
+    /**
+     * Shows the page to create a new order.
+     */
     @GetMapping("/create")
     public String createOrderPage(Model model) {
         return "CreateOrder";
     }
 
+    /**
+     * Handles the creation of a new order for a given author.
+     */
     @PostMapping("/create")
     public String createOrder(@RequestParam String author) {
         List<Product> products = productService.findAll();
@@ -44,16 +50,25 @@ public class OrderController {
         return "redirect:/order/history/" + author;
     }
 
+    /**
+     * Shows the order history search page.
+     */
     @GetMapping("/history")
     public String historyPage() {
         return "OrderHistory";
     }
 
+    /**
+     * Processes history search request.
+     */
     @PostMapping("/history")
     public String searchHistory(@RequestParam String author) {
         return "redirect:/order/history/" + author;
     }
 
+    /**
+     * Shows the list of orders for a specific author.
+     */
     @GetMapping("/history/{author}")
     public String orderList(@PathVariable String author, Model model) {
         List<Order> orders = orderService.findAllByAuthor(author);
@@ -62,6 +77,9 @@ public class OrderController {
         return "OrderList";
     }
 
+    /**
+     * Shows the payment page for a specific order.
+     */
     @GetMapping("/pay/{orderId}")
     public String payOrderPage(@PathVariable String orderId, Model model) {
         Order order = orderService.findById(orderId);
@@ -69,6 +87,9 @@ public class OrderController {
         return "PayOrder";
     }
 
+    /**
+     * Handles order payment request.
+     */
     @PostMapping("/pay/{orderId}")
     public String payOrder(@PathVariable String orderId, @RequestParam String method, @RequestParam Map<String, String> allParams, Model model) {
         Order order = orderService.findById(orderId);
