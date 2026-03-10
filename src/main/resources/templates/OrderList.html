@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center py-3">
+            <h2 class="mb-0 fs-4">Order History for: <span th:text="${author}"></span></h2>
+            <a th:href="@{/order/create}" class="btn btn-light btn-sm shadow-sm">
+                <i class="bi bi-plus-circle me-1"></i> Create Order
+            </a>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="ps-3">Order ID</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Order Time</th>
+                        <th scope="col">Status</th>
+                        <th scope="col" class="text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="order: ${orders}">
+                        <td class="ps-3 fw-medium" th:text="${order.id}"></td>
+                        <td th:text="${order.author}"></td>
+                        <td th:text="${#dates.format(new java.util.Date(order.orderTime), 'dd-MM-yyyy HH:mm')}"></td>
+                        <td>
+                            <span th:classappend="${order.status == 'SUCCESS' ? 'bg-success' : (order.status == 'FAILED' ? 'bg-danger' : 'bg-warning')}" 
+                                  class="badge rounded-pill" th:text="${order.status}"></span>
+                        </td>
+                        <td class="text-center">
+                            <a th:if="${order.status == 'WAITING_PAYMENT'}" th:href="@{/order/pay/{id}(id=${order.id})}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-credit-card"></i> Pay Now
+                            </a>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(orders)}">
+                        <td colspan="5" class="text-center py-4 text-muted">No orders found for this author.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card-footer bg-white text-center py-3">
+            <a th:href="@{/order/history}" class="btn btn-secondary btn-sm">New Search</a>
+            <a th:href="@{/}" class="btn btn-outline-secondary btn-sm">Back Home</a>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

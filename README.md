@@ -104,4 +104,26 @@ Tanpa prinsip SOLID, proyek ini akan menghadapi beberapa masalah serius:
 *   **Ketergantungan Tinggi (Tight Coupling):** Jika Controller bergantung langsung pada `CarServiceImpl` (tanpa Interface), maka setiap kali ada perubahan pada cara Service bekerja, kita harus mengubah kode di Controller juga. Ini membuat sistem sulit dikelola seiring bertambahnya skala proyek.
 *   **Duplikasi dan Kesalahan Logika:** Tanpa abstraksi yang benar (seperti kasus list data ganda di `CarRepository` sebelumnya), data bisa menjadi tidak sinkron karena tersimpan di dua tempat berbeda (list di induk dan list di anak), yang berpotensi menyebabkan bug yang sulit dilacak.
 
+---
+## Reflection 5
+
+### 1. TDD Flow Utility (Percival, 2017)
+Berdasarkan pertanyaan refleksi diri dari Percival (2017), alur TDD yang saya terapkan khususnya untuk fitur *Order* terbukti sangat berguna dalam proses pengembangan:
+
+*   **Pemahaman Masalah**: Menulis tes terlebih dahulu memaksa saya untuk mendefinisikan perilaku sistem secara eksplisit sebelum menulis implementasi. Contohnya, saat mengerjakan model `Order`, saya harus menentukan bagaimana sistem menangani daftar produk yang kosong atau status pesanan yang tidak valid sebelum logika bisnisnya dibuat.
+*   **Kepercayaan Diri dalam Refactoring**: Dengan adanya suite pengujian yang lengkap, saya merasa aman saat melakukan perubahan atau optimasi pada `OrderRepository` dan `OrderServiceImpl`. Jika saya membuat kesalahan logika, tes akan segera memberitahu saya (umpan balik cepat).
+*   **Desain Kode yang Lebih Baik**: TDD mendorong saya untuk menulis kode yang *testable* dan modular. Hal ini terlihat dari bagaimana service bergantung pada interface repository, memudahkan proses *mocking* dan isolasi unit dalam pengujian.
+
+Secara keseluruhan, meskipun TDD membutuhkan investasi waktu lebih banyak di awal, ia sangat membantu dalam mengurangi bug di masa depan dan memastikan spesifikasi fitur terpenuhi dengan tepat.
+
+### 2. F.I.R.S.T. Principle Reflection
+Unit test yang telah saya buat untuk modul *Order* telah berupaya memenuhi prinsip F.I.R.S.T.:
+
+*   **Fast (Cepat)**: Pengujian berjalan dalam hitungan milidetik karena saya menggunakan *in-memory repository* dan Mockito untuk mem-bypass ketergantungan yang berat (seperti database atau koneksi jaringan).
+*   **Independent (Mandiri)**: Setiap *test case* di `OrderRepositoryTest` dan `OrderServiceImplTest` berdiri sendiri. Penggunaan `@BeforeEach` memastikan bahwa setiap tes dimulai dengan *state* yang bersih, sehingga hasil satu tes tidak dipengaruhi oleh tes lainnya.
+*   **Repeatable (Dapat Diulang)**: Tes memberikan hasil yang konsisten baik saat dijalankan di mesin lokal maupun di pipeline GitHub Actions. Tidak ada ketergantungan pada variabel lingkungan atau waktu sistem yang tidak terkendali.
+*   **Self-Validating (Validasi Mandiri)**: Setiap tes menggunakan *assertions* (seperti `assertEquals`, `assertNull`, `assertThrows`) yang secara otomatis melaporkan status "Pass" atau "Fail", sehingga tidak memerlukan verifikasi manual terhadap output atau log.
+*   **Timely (Tepat Waktu)**: Tes ditulis di awal siklus pengembangan (saat fase *Red* dalam TDD), memastikan bahwa kode implementasi yang ditulis memang benar-benar dibutuhkan untuk memenuhi persyaratan fungsional.
+
+Hal yang perlu saya tingkatkan di masa depan adalah cakupan untuk skenario *boundary* yang lebih kompleks dan memastikan pesan kegagalan dalam asersi lebih deskriptif untuk mempermudah proses *debugging*.
 

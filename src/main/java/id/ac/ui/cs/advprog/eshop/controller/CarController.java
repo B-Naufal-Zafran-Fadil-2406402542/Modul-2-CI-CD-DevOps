@@ -26,8 +26,10 @@ public class CarController {
 
     @PostMapping("/createCar")
     public String createCarPost(@ModelAttribute Car car, Model model) {
+        if (car.getId() == null) {
+            car.setId(UUID.randomUUID().toString());
+        }
         carservice.create(car);
-        car.setId(UUID.randomUUID().toString());
         return "redirect:listCar";
     }
 
